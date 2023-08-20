@@ -3,6 +3,8 @@ metadata:
   name: python-hello-world
 components:
   - name: python
+    attributes:
+    container-overrides: {"resources": {"limits": "nvidia.com/gpu": 1"}}
     container:
       image: registry.redhat.io/devspaces/udi-rhel8:3.9
       volumeMounts:
@@ -12,7 +14,6 @@ components:
       memoryRequest: '1Gi'
       cpuLimit: '4'
       cpuRequest: '1'
-      nvidia.com/gpu: '1'
       mountSources: true
   - name: venv
     volume:
