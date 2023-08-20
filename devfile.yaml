@@ -4,10 +4,7 @@ metadata:
 components:
   - name: python
     attributes:
-    container-overrides:
-      resources: 
-        limits:
-          nvidia.com/gpu: 1
+      container-overrides: {"resources": {"limits": "nvidia.com/gpu": 1"}}
     container:
       image: registry.redhat.io/devspaces/udi-rhel8:3.9
       volumeMounts:
