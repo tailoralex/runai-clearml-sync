@@ -9,7 +9,7 @@ components:
           limits: 
             nvidia.com/gpu: 1
     container:
-      image: registry.redhat.io/devspaces/udi-rhel8:3.9
+      image: registry.redhat.io/devspaces/udi-rhel8
       volumeMounts:
         - name: venv
           path: /home/user/.venv
