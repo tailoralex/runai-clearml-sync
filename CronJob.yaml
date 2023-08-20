@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: runai-clearml-sync
+  namespace: runai
+spec:
+  schedule: "49 * * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: syncer
+            args:
+            - "--tenant_name"
+            - "runai"
+            - "--cluster_id"
+            - "5801b8a7-d12f-4e2e-92e6-80acf703ba73"
+            - "--client_id"
+            - "API"
+            - "--client_secret"
+            - "SHyiOq1d2V191HsxcorLvKYQAntCjfcG"
+            - "--runai_base_url"
+            - "https://cs-alexs-zenseact.runailabs.com"
+            - "--dry-run"
+            - "--delete_projects"
+            image: gcr.io/run-ai-lab/runai-clearml-sync	
+            imagePullPolicy: Always
+            volumeMounts:
+              - name: config-volume
+                mountPath: /root/clearml.conf
+                subPath: clearml.conf
+          volumes:
+          - name: config-volume
+            configMap:
+              name: clearml-conf
+          restartPolicy: OnFailure

@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: runai-clearml-sync
+  namespace: runai
+spec:
+      template:
+        spec:
+          containers:
+          - name: syncer
+            args:
+            - "--tenant_name"
+            - "runai"
+            - "--cluster_id"
+            - "0697b03c-1c39-4536-833b-1f8833b6ffe1"
+            - "--client_id"
+            - "API"
+            - "--client_secret"
+            - "e80b62f1-78d1-46c6-8d13-c3c143aad7a3"
+            - "--runai_base_url"
+            - "https://cs-alexs-demo.runailabs.com"
+            image: gcr.io/run-ai-lab/runai-clearml-sync	
+            imagePullPolicy: Always
+            volumeMounts:
+              - name: config-volume
+                mountPath: /root/clearml.conf
+                subPath: clearml.conf
+          volumes:
+          - name: config-volume
+            configMap:
+              name: clearml-conf
+          restartPolicy: OnFailure
